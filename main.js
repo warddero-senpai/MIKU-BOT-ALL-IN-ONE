@@ -125,14 +125,10 @@ client.once('ready', async () => {
 });
 
 connectToDatabase().then(() => {
-    console.log('\x1b[36m[ BASE DE DATOS ]\x1b[0m', '\x1b[Wardo en línea ✅\x1b[0m');
+    console.log('\x1b[36m[ BASE DE DATOS ]\x1b[0m', '\x1b[32mMongoDB en línea ✅\x1b[0m');
 }).catch(console.error);
 
 client.login(process.env.TOKEN || config.token);
 
 module.exports = client;
 
-
-client.login(process.env.TOKEN || config.token);
-
-module.exports = client;
