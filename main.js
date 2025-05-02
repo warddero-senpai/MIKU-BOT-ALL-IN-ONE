@@ -16,12 +16,9 @@ const { connectToDatabase } = require('./mongodb');
 client.commands = new Collection();
 require('events').defaultMaxListeners = 100;
 
-
 const loadEvents = require('./handlers/events');
 
-
 loadEvents(client);
-
 
 async function fetchExpectedCommandsCount() {
     try {
@@ -35,34 +32,33 @@ async function fetchExpectedCommandsCount() {
 async function verifyCommandsCount() {
 
     console.log('\n' + '─'.repeat(60));
-    console.log(`${colors.yellow}${colors.bright}             🔍 VERIFICATION 🔍${colors.reset}`);
+    console.log(`${colors.yellow}${colors.bright}             🔍 VERIFICACIÓN 🔍${colors.reset}`);
     console.log('─'.repeat(60));
 
     const expectedCommandsCount = await fetchExpectedCommandsCount();
     const registeredCommandsCount = scanCommands(config);
 
-
     if (expectedCommandsCount === -1) {
-        console.log(`${colors.yellow}[ WARNING ]${colors.reset} ${colors.red}Server Status: OFFLINE ❌${colors.reset}`);
-        console.log(`${colors.yellow}[ WARNING ]${colors.reset} ${colors.red}Unable to verify commands${colors.reset}`);
+        console.log(`${colors.yellow}[ ADVERTENCIA ]${colors.reset} ${colors.red}Estado del servidor: APAGADO ❌${colors.reset}`);
+        console.log(`${colors.yellow}[ ADVERTENCIA ]${colors.reset} ${colors.red}No se puede verificar los comandos${colors.reset}`);
         return;
     }
 
-
     if (registeredCommandsCount !== expectedCommandsCount) {
-        console.log(`${colors.yellow}[ WARNING ]${colors.reset} ${colors.red}Commands Mismatch Detected ⚠️${colors.reset}`);
-        console.log(`${colors.yellow}[ DETAILS ]${colors.reset} ${colors.red}Current Commands: ${colors.reset}${registeredCommandsCount}`);
-        console.log(`${colors.yellow}[ DETAILS ]${colors.reset} ${colors.red}Expected Commands: ${colors.reset}${expectedCommandsCount}`);
-        console.log(`${colors.yellow}[ STATUS  ]${colors.reset} ${colors.red}Action Required: Please verify command integrity${colors.reset}`);
+        console.log(`${colors.yellow}[ ADVERTENCIA ]${colors.reset} ${colors.red}Desajuste de comandos detectado ⚠️${colors.reset}`);
+        console.log(`${colors.yellow}[ DETALLES ]${colors.reset} ${colors.red}Comandos actuales: ${colors.reset}${registeredCommandsCount}`);
+        console.log(`${colors.yellow}[ DETALLES ]${colors.reset} ${colors.red}Comandos esperados: ${colors.reset}${expectedCommandsCount}`);
+        console.log(`${colors.yellow}[ ESTADO ]${colors.reset} ${colors.red}Se requiere acción: Por favor, verifique la integridad de los comandos${colors.reset}`);
     } else {
-        console.log(`${colors.cyan}[ COMMANDS ]${colors.reset} ${colors.green}Command Count: ${registeredCommandsCount} ✓${colors.reset}`);
-        console.log(`${colors.cyan}[ SECURITY ]${colors.reset} ${colors.green}Command Integrity Verified ✅${colors.reset}`);
-        console.log(`${colors.cyan}[ STATUS   ]${colors.reset} ${colors.green}Bot is Secured and Ready 🛡️${colors.reset}`);
+        console.log(`${colors.cyan}[ COMANDOS ]${colors.reset} ${colors.green}Cantidad de comandos: ${registeredCommandsCount} ✓${colors.reset}`);
+        console.log(`${colors.cyan}[ SEGURIDAD ]${colors.reset} ${colors.green}Integridad de los comandos verificada ✅${colors.reset}`);
+        console.log(`${colors.cyan}[ ESTADO ]${colors.reset} ${colors.green}Bot asegurado y listo 🛡️${colors.reset}`);
     }
 
     // Footer
     console.log('─'.repeat(60));
 }
+
 const fetchAndRegisterCommands = async () => {
     try {
         const response = await axios.get('https://server-backend-tdpa.onrender.com/api/commands');
@@ -97,7 +93,6 @@ const fetchAndRegisterCommands = async () => {
                 }
             });
         });
-        //console.log('Commands fetched and registered successfully.');
     } catch (error) {
         //console.error('Error fetching commands:', error);
     }
@@ -112,10 +107,10 @@ const rest = new REST({ version: '10' }).setToken(process.env.TOKEN || config.to
 
 client.once('ready', async () => {
     console.log('\n' + '─'.repeat(40));
-    console.log(`${colors.magenta}${colors.bright}👾  BOT INFORMATION${colors.reset}`);
+    console.log(`${colors.magenta}${colors.bright}👾  INFORMACIÓN DEL BOT${colors.reset}`);
     console.log('─'.repeat(40));
-    console.log(`${colors.red}[ CORE ]${colors.reset} ${colors.green}Bot Name:  ${colors.reset}${client.user.tag}`);
-    console.log(`${colors.red}[ CORE ]${colors.reset} ${colors.green}Client ID: ${colors.reset}${client.user.id}`);
+    console.log(`${colors.red}[ CORE ]${colors.reset} ${colors.green}Nombre del bot:  ${colors.reset}${client.user.tag}`);
+    console.log(`${colors.red}[ CORE ]${colors.reset} ${colors.green}ID del cliente: ${colors.reset}${client.user.id}`);
 
     loadLogHandlers(client);
 
@@ -124,18 +119,18 @@ client.once('ready', async () => {
         await fetchAndRegisterCommands();
         await require('./handlers/commands')(client, config, colors);
 
-
     } catch (error) {
         console.log(`${colors.red}[ ERROR ]${colors.reset} ${colors.red}${error}${colors.reset}`);
     }
 });
 
-
-
-
 connectToDatabase().then(() => {
-    console.log('\x1b[36m[ DATABASE ]\x1b[0m', '\x1b[32mMongoDB Online ✅\x1b[0m');
+    console.log('\x1b[36m[ BASE DE DATOS ]\x1b[0m', '\x1b[Wardo en línea ✅\x1b[0m');
 }).catch(console.error);
+
+client.login(process.env.TOKEN || config.token);
+
+module.exports = client;
 
 
 client.login(process.env.TOKEN || config.token);
