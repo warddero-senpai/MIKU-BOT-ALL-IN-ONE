@@ -6,11 +6,11 @@ module.exports = {
     rotateDefault: [
       { name: 'Netflix', type: ActivityType.Watching },
       { name: 'GTA VI', type: ActivityType.Playing },
-      { name: 'on YouTube', type: ActivityType.Streaming, url: 'https://www.twitch.tv/glaceytt' },
+      { name: 'on YouTube', type: ActivityType.Streaming, url: 'https://www.twitch.tv/wardosenpai' },
       { name: 'Spotify', type: ActivityType.Listening },
     ],
     songStatus: true
   },
-  spotifyClientId: "f71a3da30e254962965ca2a89d6f74b9",
-  spotifyClientSecret: "199a619d22dd4e55a4a2c1a7a3d70e63",
+  spotifyClientId: "c7f0768496a644afb95bdba50e6b1b2d",
+  spotifyClientSecret: "40541a04803a4efbb14c0dd11998e085",
 }
